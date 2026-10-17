@@ -25,4 +25,4 @@ The testbench demonstrates sequential fetching followed by a branch to address `
 ## Tools
 
 - Verilog
-- AMD Vivado Simulator# MIPS-Fetch-Stage
+- AMD Vivado Simulator
