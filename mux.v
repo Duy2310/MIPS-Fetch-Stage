@@ -18,8 +18,6 @@ module mux(
     input  wire        sel       // 1-bit select signal
 );
 
-    // Ternary operator: "if sel is 1, y = a_true, otherwise y = b_false"
-    // 'assign' means y is continuously driven by this expression (like a wire).
     assign y = sel ? a_true : b_false;
 
 endmodule
