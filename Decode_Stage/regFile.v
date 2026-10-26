@@ -29,7 +29,7 @@ module regfile(
 );
 
     // 32 registers, each 32 bits wide (same array syntax as instrMem)
-    reg [31:0] registers [0:31];
+    reg [31:0] registers [0:31]; //from the fetch
 
     integer i;   // loop counter
 
@@ -39,7 +39,7 @@ module regfile(
             registers[i] = i;
     end
 
-    // ---------- WRITE: clocked, like pc.v ----------
+
     always @(posedge clk or posedge rst) begin
         if (rst) begin
             for (i = 0; i < 32; i = i + 1)
@@ -50,7 +50,7 @@ module regfile(
         end
     end
 
-    // ---------- READ: combinational, like instrMem ----------
+
     // Always on: outputs follow rs/rt instantly, no clock needed
     assign A_readdat1 = registers[rs];
     assign B_readdat2 = registers[rt];
