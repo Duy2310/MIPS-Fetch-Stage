@@ -1,0 +1,85 @@
+`timescale 1ns / 1ps
+
+module executeTB;
+
+    reg clk;
+
+    reg [1:0] ctlwb_in;
+    reg [1:0] ctlm_in;
+    reg [31:0] npc;
+    reg [31:0] rdata1;
+    reg [31:0] rdata2;
+    reg [31:0] s_extend;
+    reg [4:0] instr_2016;
+    reg [4:0] instr_1511;
+    reg [1:0] alu_op;
+    reg [5:0] funct;
+    reg alusrc;
+    reg regdst;
+
+    wire [1:0] ctlwb_out;
+    wire [1:0] ctlm_out;
+    wire [31:0] adder_out;
+    wire [31:0] alu_result_out;
+    wire [31:0] rdata2_out;
+    wire [4:0] muxout_out;
+
+    execute uut (
+        .clk(clk),
+        .ctlwb_in(ctlwb_in),
+        .ctlm_in(ctlm_in),
+        .npc(npc),
+        .rdata1(rdata1),
+        .rdata2(rdata2),
+        .s_extend(s_extend),
+        .instr_2016(instr_2016),
+        .instr_1511(instr_1511),
+        .alu_op(alu_op),
+        .funct(funct),
+        .alusrc(alusrc),
+        .regdst(regdst),
+        .ctlwb_out(ctlwb_out),
+        .ctlm_out(ctlm_out),
+        .adder_out(adder_out),
+        .alu_result_out(alu_result_out),
+        .rdata2_out(rdata2_out),
+        .muxout_out(muxout_out)
+    );
+
+    initial begin
+        clk = 1'b0;
+        forever #5 clk = ~clk;
+    end
+
+    initial begin
+        ctlwb_in = 2'b10;
+        ctlm_in = 2'b01;
+
+        npc = 32'd100;
+        rdata1 = 32'd10;
+        rdata2 = 32'd20;
+        s_extend = 32'd4;
+
+        instr_2016 = 5'd5;
+        instr_1511 = 5'd10;
+
+        alu_op = 2'b10;
+        funct = 6'b100000;
+
+        alusrc = 1'b1;
+        regdst = 1'b1;
+
+        #15;
+
+        alusrc = 1'b0;
+        regdst = 1'b0;
+        s_extend = 32'd8;
+        alu_op = 2'b01;
+        funct = 6'b100010;
+
+        #15;
+
+        $finish;
+    end
+
+endmodule
