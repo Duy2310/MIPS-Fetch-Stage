@@ -1,0 +1,29 @@
+name: Execute Stage Simulation
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+jobs:
+  simulate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install Icarus Verilog
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+
+      - name: Compile Execute Stage
+        working-directory: Execute_Stage
+        run: |
+          iverilog -g2012 -s executeTB -o execute_sim.vvp *.v
+
+      - name: Run Execute Stage
+        working-directory: Execute_Stage
+        run: |
+          vvp execute_sim.vvp
